@@ -1,0 +1,24 @@
+rabbitmq:
+    image: rabbitmq:3-management
+    restart: always
+    ports:
+    - 5672:5672 # port for the daemon API
+    - 15672:15672 # port for the RabbitMQ management interface
+consumer:
+    build: consumer
+    volumes:
+        - ./consumer:/app
+    links:
+    - rabbitmq
+    tty: true
+    command: /bin/sh
+    #command: python hello_world.py
+producer:
+    build: producer
+    volumes:
+        - ./producer:/app
+    links:
+    - rabbitmq
+    tty: true
+    command: /bin/sh
+    #command: python hello_world.py
